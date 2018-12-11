@@ -1,0 +1,41 @@
+##############################################################################################
+#
+#                                         Climate
+#                                                                                      J Brown
+##############################################################################################
+
+# Lounge Heatpump
+  - platform: mqtt
+    name: Heatpump 
+    modes:
+      - "Off"
+      - Heat
+      - Cool
+      - Dry
+      - Auto
+    swing_modes:
+      - Auto
+      - H1
+      - H2
+      - H3
+      - H4
+      - H5
+      - AutoMove
+    fan_modes:
+      - High
+      - Medium
+      - Low
+      - Auto
+    temperature_command_topic: "lounge/heatpump/target_temp"
+    mode_command_topic: "lounge/heatpump/mode"
+    fan_mode_command_topic: "lounge/heatpump/fan"
+    swing_mode_command_topic: "lounge/heatpump/swing"
+    
+# Foyer Heatpump    
+  - platform: mitsubishi_mqtt
+    name: "Mistubishi Heatpump"
+    command_topic: "heatpump/set"
+    temperature_state_topic: "heatpump/temperature"
+    state_topic: "heatpump"
+
+    

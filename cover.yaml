@@ -1,0 +1,19 @@
+##############################################################################################
+#
+#                                         Covers
+#                                                                                      J Brown
+##############################################################################################
+
+# Garage Door
+ - platform: mqtt
+   state_topic: "garage/door/status"
+   command_topic: "garage/door/command"
+   name: "Garage Door"
+   qos: 0
+   retain: false
+   payload_open: "OPEN"
+   payload_close: "CLOSED"
+   payload_stop: "STOPPED"
+   state_open: "OPEN"
+   state_closed: "CLOSED"
+   optimistic: false

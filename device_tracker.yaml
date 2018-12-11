@@ -1,0 +1,19 @@
+##############################################################################################
+#
+#                                      Device Tracking
+#                                                                                      J Brown
+##############################################################################################
+
+- platform: unifi
+#_direct
+  username: !secret ubnt_user
+  password: !secret ubnt_password
+#  port: 8433
+  verify_ssl: false
+#  site_id: Home
+  host: 10.1.1.10
+  interval_seconds: 10 
+  consider_home: 60 
+  track_new_devices: false
+
+

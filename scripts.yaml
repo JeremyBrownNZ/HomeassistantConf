@@ -1,0 +1,124 @@
+##############################################################################################
+#
+#                                    Scripts
+#                                                                                      J Brown
+##############################################################################################
+
+#-------------------------------------------HVAC--------------------------------------------#
+# Turn Both Heatpumps on at lowest temperatures on cool
+  max_cool:
+    sequence:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.heatpump
+          operation_mode: Cool
+      - service: climate.set_temperature
+        data:
+          temperature: 18
+          entity_id: climate.heatpump
+          operation_mode: Cool
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.mistubishi_heatpump
+          operation_mode: COOL
+      - service: climate.set_temperature
+        data:
+          temperature: 18
+          entity_id: climate.mistubishi_heatpump
+          operation_mode: COOL
+
+# Turn Both Heatpumps on at highest temperatures on heat
+  max_heat:
+    sequence:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.heatpump
+          operation_mode: Heat
+      - service: climate.set_temperature
+        data:
+          temperature: 31
+          entity_id: climate.heatpump
+          operation_mode: Heat
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.mistubishi_heatpump
+          operation_mode: HEAT
+      - service: climate.set_temperature
+        data:
+          temperature: 31
+          entity_id: climate.mistubishi_heatpump
+          operation_mode: HEAT
+
+#Turn both Heatpumps on heat at 18 degrees
+  heatpumps_on:
+    sequence:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.heatpump
+          operation_mode: Heat
+      - service: climate.set_temperature
+        data:
+          temperature: 18
+          entity_id: climate.heatpump
+          operation_mode: Heat
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.mistubishi_heatpump
+          operation_mode: HEAT
+      - service: climate.set_temperature
+        data:
+          temperature: 18
+          entity_id: climate.mistubishi_heatpump
+          operation_mode: HEAT
+
+#Turn Lounge Heatpump on heat at 20 degrees
+  lounge_heatpump_on:
+    sequence:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.heatpump
+          operation_mode: Heat
+      - service: climate.set_temperature
+        data:
+          temperature: 20
+          entity_id: climate.heatpump
+          operation_mode: Heat
+
+#Turn both Heatpumps Off
+  heatpumps_off:
+    sequence:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.heatpump
+          operation_mode: 'Off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.mistubishi_heatpump
+          operation_mode: 'OFF'
+#-------------------------------------------HVAC--------------------------------------------#
+
+#-------------------------------------------MISC--------------------------------------------#
+
+ #Spotify Script
+  spotify_music:
+    alias: Play selected spotify playlist
+    sequence:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.spotify
+          volume_level: '0.40'
+      -  service: media_player.select_source
+         data_template: 
+           entity_id: media_player.spotify
+           source: >
+            {% if is_state("input_select.spotify_source", "Jeremys Note8") %} Jeremys Note8
+            {% elif is_state("input_select.spotify_source", "Google Home") %} Google Home
+            {% endif %}
+      -  service: media_player.play_media
+         data_template:
+           entity_id: media_player.spotify
+           media_content_type: playlist
+           media_content_id: >
+            {% if is_state("input_select.spotify_playlist", "NZ Top 40") %} spotify:user:spotify:playlist:3lBqBc4gEUcWpsfM5Ke8aF
+            {% endif %} 
+#-------------------------------------------MISC--------------------------------------------#

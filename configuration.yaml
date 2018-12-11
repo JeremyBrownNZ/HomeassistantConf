@@ -1,0 +1,114 @@
+##############################################################################################
+#
+#                                         Configuration
+#                                                                                      J Brown
+##############################################################################################
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 20
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Pacific/Auckland
+  customize: !include customize.yaml
+  whitelist_external_dirs: /config/
+ 
+
+frontend:                 # Enables the frontend
+  themes: !include themes.yaml      
+config:                     # Enables configuration UI
+map:
+updater:                  # Checks for available updates
+conversation:          # Allows you to issue voice commands from the frontend in enabled browsers
+history:                   # Enables support for tracking state changes over time.
+logbook:                  # View all events in a logbook
+sun:                        # Track the sun
+discovery:                # Discover some devices automatically
+
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+
+http:
+   api_password: !secret http_password
+   base_url: !secret http_address
+
+tts:                        # Text to speech
+  - platform: google
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+    
+logger:
+  default: warning
+  logs:
+    # Ignore all garage door logs below error state (removes log of unknown payloads)
+    homeassistant.components.cover.mqtt: error
+
+automation auto: !include automations.yaml
+automation main: !include automations_main.yaml  
+binary_sensor: !include binary_sensor.yaml
+camera: !include camera.yaml
+climate: !include climate.yaml
+cover: !include cover.yaml
+device_tracker: !include device_tracker.yaml
+group: !include groups.yaml
+media_player: !include media_player.yaml
+script: !include scripts.yaml
+sensor: !include sensor.yaml
+switch: !include switches.yaml
+zone: !include zones.yaml
+
+notify:
+  - name: NotfiyJeremy    
+    platform: html5
+    gcm_api_key: !secret gcm_api_key
+    gcm_sender_id: !secret gcm_sender_id
+
+mqtt:
+  broker: 10.1.1.103
+  port: 1883
+  client_id: !secret mqtt_client_id
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  protocol: 3.1
+
+# Wemo Hub for Foyer lights
+wemo:
+  static:
+    - 10.1.1.165
+         
+shell_command: 
+# 
+  pwrat7: /bin/bash -c "echo '{{ states("sensor.energy_consumed") }}' > /config/pwrat7.txt"
+  pwrat21: /bin/bash -c "echo '{{ states("sensor.energy_consumed") }}' > /config/pwrat21.txt"
+  pwrmonthupdate: /bin/bash -c "echo '{{ states("sensor.month_power_cost") }}' > /config/powermonth.txt"
+  pwrmonthclear: /bin/bash -c "echo '0' > /config/powermonth.txt"
+    
+#  spotify_volume:
+#    name: Volume
+#    icon: mdi:volume-high
+#    min: 0
+#    max: 1
+#    step: 0.05
+    
+input_select:
+  spotify_playlist:
+    name: 'Playlist:'
+    options:
+    icon: mdi:spotify
+  spotify_source:
+    name: 'Source:'
+    options:
+      - Jeremys Note8
+      - Google Home
+    initial: Google Home
+    icon: mdi:speaker-wireless
+    
+google_assistant:
+  project_id: !secret ga_project_id

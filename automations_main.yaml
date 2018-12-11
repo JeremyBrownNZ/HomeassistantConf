@@ -1,0 +1,499 @@
+##############################################################################################
+#
+#                                    Automations (Published)
+#                                                                                      J Brown
+##############################################################################################
+
+#-------------------------------------------HVAC--------------------------------------------#
+#Turn heatpumps on if someone comes home, its 1500L-2300L and under 10 degrees
+- id: 'HVAC1'
+  alias: Heatpumps Auto Afternoon
+  trigger:
+  - entity_id: group.all_devices
+    from: not_home
+    platform: state
+    to: home
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      after: '14:00:00'
+      before: '23:00:00'
+    - condition: numeric_state
+      entity_id: sensor.pws_temp_c
+      below: '10'
+  action:
+  - data:
+      entity_id: script.heatpumps_on
+    service: script.turn_on
+    
+#Turn Lounge heatpump on if someone comes home, its 1500L-2300L and under 10 degrees
+- id: 'HVAC2'
+  alias: HP Lounge Auto Afternoon
+  trigger:
+  - entity_id: group.all_devices
+    from: not_home
+    platform: state
+    to: home
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      after: '14:00:00'
+      before: '23:00:00'
+    - condition: numeric_state
+      entity_id: sensor.pws_temp_c
+      below: '10'
+    - condition: state
+      entity_id: climate.heatpump
+      state: 'Off'    
+  action:
+  - data:
+      entity_id: script.lounge_heatpump_on
+    service: script.turn_on
+
+ #Turn heatpump on if temperature outside falls below 10 degrees, someone is home and its 1500L-2300L.
+- id: 'HVAC3'
+  alias: Heatpump Auto Afternoon if < 10 Deg
+  trigger:
+  - entity_id: sensor.pws_temp_c
+    platform: numeric_state
+    below: 10
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      after: '15:00:00'
+      before: '23:00:00'
+    - condition: state
+      entity_id: group.all_devices
+      state: home
+  action:
+  - data:
+      entity_id: script.heatpumps_on
+    service: script.turn_on
+    
+ #Turn Lounge heatpump on if temperature outside falls below 10 degrees, someone is home and its 1500L-2300L.
+- id: 'HVAC4'
+  alias: HP Lounge Auto Afternoon if < 10 Deg
+  trigger:
+  - entity_id: sensor.pws_temp_c
+    platform: numeric_state
+    below: 10
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      after: '15:00:00'
+      before: '23:00:00'
+    - condition: state
+      entity_id: group.all_devices
+      state: home
+    - condition: state
+      entity_id: climate.heatpump
+      state: 'Off'    
+  action:
+  - data:
+      entity_id: script.lounge_heatpump_on
+    service: script.turn_on
+
+#Turn heatpump on at 0655L if someone is home.
+- id: 'HVAC5'
+  alias: Heatpump Auto Morning
+  trigger:
+    platform: time
+    at: 06:30:00
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: group.all_devices
+      state: home
+    - condition: numeric_state
+      entity_id: sensor.pws_temp_c
+      below: '10'
+  action:
+  - data:
+      entity_id: script.heatpumps_on
+    service: script.turn_on
+
+#Turn  Lounge heatpump on at 0655L if someone is home.
+- id: 'HVAC6'
+  alias: HP Lounge Auto Morning
+  trigger:
+    platform: time
+    at: 06:30:00
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: group.all_devices
+      state: home
+    - condition: numeric_state
+      entity_id: sensor.pws_temp_c
+      below: '10'
+    - condition: state
+      entity_id: climate.heatpump
+      state: 'Off'    
+  action:
+  - data:
+      entity_id: script.lounge_heatpump_on
+    service: script.turn_on
+    
+#Turn  all HVAC off if any are on and someone leaves home.
+- id: 'HVAC7'
+  alias: HPs off when noones home.
+  trigger:
+  - entity_id: group.all_devices
+    from: home
+    platform: state
+    to: not_home
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: climate.heatpump
+      state: 'Heat'    
+    - condition: state
+      entity_id: climate.heatpump
+      state: 'Cool'
+    - condition: state
+      entity_id: climate.heatpump
+      state: 'Dry'
+    - condition: state
+      entity_id: climate.heatpump
+      state: 'Auto'
+  action:
+  - data:
+      entity_id: script.heatpumps_off
+    service: script.turn_on
+#-------------------------------------------HVAC--------------------------------------------#
+
+#-------------------------------------------Lights-------------------------------------------#
+# Turn on Bottom Foyer Lamp 45 min before sunset 
+- id: 'LIGHT1' 
+  alias: Turn on Bottom Foyer Light
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:45:00" 
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    entity_id: light.spotlight
+
+# Turn on all lamps at sunset
+- id: 'LIGHT2'
+  alias: Turn on Foyer Lights
+  trigger:
+    platform: sun
+    event: sunset
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    entity_id: group.foyer
+
+# Turn off all lamps 45 min after sunrise
+- id: 'LIGHT3'
+  alias: Turn off Foyer Lights
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "+00:45:00"
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    entity_id: group.foyer
+
+#Turn off top and bottom lamp at 2230L
+- id: 'LIGHT4'
+  alias: Turn off some Foyer Lights
+  trigger:
+    platform: time
+    at: '22:30:00'
+  condition:
+  - condition: state
+    entity_id: group.foyer
+    state: 'on'
+  action:
+  - service: homeassistant.turn_off
+    data:
+      entity_id: light.spotlight
+  - service: homeassistant.turn_off
+    data:
+      entity_id: light.top
+#-------------------------------------------Lights--------------------------------------------#
+
+#--------------------------------------------SPA---------------------------------------------#
+# Turn SPA on every Weekday at 9PM when night rate power begins. Leave spa on all weekend.
+- id: 'SPA1'
+  alias: Spa ON
+  trigger:
+    platform: time
+    at: '21:00:00'
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+  - data:
+      entity_id: switch.spa
+    service: switch.turn_on
+    
+# Turn SPA off every Weekday at 7AM when night rate power ends. Leave spa on all weekend.
+- id: 'SPA2'
+  alias: Spa OFF
+  trigger:
+    platform: time
+    at: '07:00:00'
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+  - data:
+      entity_id: switch.spa
+    service: switch.turn_off
+#--------------------------------------------SPA---------------------------------------------#
+
+#--------------------------------------------Misc--------------------------------------------#
+# Change volume on media playerif input slider is changed - Spotify
+- id: 'MISC1'
+  alias: Set Spotify Volume
+  trigger:
+    platform: state
+    entity_id: input_slider.spotify_volume
+  condition: []
+  action:
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.spotify
+      volume_level: '{{  states.input_slider.spotify_volume.state  }}'
+
+# Run shell script which stores current power usage at 7am to a text file. Used for power cost
+- id: 'MISC2'
+  alias: Record AM Power Usage
+  trigger:
+  - at: 07:00
+    platform: time
+  condition: []
+  action:
+  - service: shell_command.pwrat7
+
+# Run shell script which stores current power usage at 9pm to a text file. Used for power cost
+- id: 'MISC3'
+  alias: Record PM power
+  trigger:
+  - at: '21:00'
+    platform: time
+  condition: []
+  action:
+  - service: shell_command.pwrat21
+  
+# Run shell script which stores current monthly usage
+- id: 'MISC4'
+  alias: Record Month power
+  trigger:
+  - at: '23:59:59'
+    platform: time
+  condition: []
+  action:
+  - service: shell_command.pwrmonthupdate
+  
+- id: 'MISC5'
+  alias: 'Set theme at startup'
+  trigger:
+   - platform: homeassistant
+     event: start
+  condition: []
+  action:
+    service: frontend.set_theme
+    data:
+      name: orange  
+      
+# Run shell script which clears current monthly usage
+#- id: 'MISC6'
+#  alias: Clear Month power
+#  trigger:
+#    platform: template
+#    value_template: "{% if now().strftime("%d") == '7' %}True{% endif%}"
+#  condition: []
+#  action:
+#  - service: shell_command.pwrmonthclear
+#--------------------------------------------Misc--------------------------------------------#
+
+#---------------------------------------Notifications----------------------------------------#
+# Notify Jeremy if connection to RPiZeroADSB is lost    
+- id: 'NOTIFY1'
+  alias: RPiZeroADSB
+  trigger:
+  - entity_id: binary_sensor.rpizeroadsb
+    platform: state
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+    data:
+      message: 'Lost connection to RPiZeroADSB {{states("sensor.date__time")}}'
+    service: notify.notfiyjeremy
+    
+# Notify Jeremy if connection to RPiZeroCam is lost      
+- id: 'NOTIFY2'
+  alias: RPiZeroWCam
+  trigger:
+  - entity_id: binary_sensor.RPiZeroWCam
+    platform: state
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+    data:
+      message: 'Lost connection to RPiZeroWCam {{states("sensor.date__time")}}'
+    service: notify.notfiyjeremy
+    
+ # Notify Jeremy if heat pump is turned on    
+- id: 'NOTIFY3'
+  alias: NotifyHeatPump
+  trigger:
+  - entity_id: climate.heatpump
+    platform: state
+    from: 'Off'
+    to: 'Heat'
+  - entity_id: climate.heatpump
+    platform: state
+    from: 'Off'
+    to: 'Cool'
+  - entity_id: climate.heatpump
+    platform: state
+    from: 'Off'
+    to: 'Dry'
+  - entity_id: climate.heatpump
+    platform: state
+    from: 'Off'
+    to: 'Auto'
+  condition: []
+  action:
+    data:
+      data:
+        actions:
+        - action: open
+          icon: /static/icons/favicon-192x192.png
+          title: Open Home Assistant
+        - action: turn_off
+          title: Turn off
+      message: 'Lounge Heat Pump Turned On {{states("climate.heatpump")}} At {{states("sensor.time")}}'
+    service: notify.notfiyjeremy
+
+ #notify Jeremy if garage is opened
+- id: 'NOTIFY4'
+  alias: NotifyGarage
+  trigger:
+  - entity_id: sensor.garage_door
+    platform: state
+    from: 'OPENING'
+    to: 'OPEN'
+  condition: []
+  action:
+    data:
+      data:
+        actions:
+        - action: open
+          icon: /static/icons/favicon-192x192.png
+          title: Open Home Assistant
+        - action: close
+          title: Close
+      message: 'Garage Opened At {{states("sensor.time")}}'
+    service: notify.notfiyjeremy
+#---------------------------------------Notifications----------------------------------------#
+
+#-------------------------------------------TTS---------------------------------------------#
+# Say when its 9 PM to allow people to turn on appliances in cheaper power tariff
+- id: 'TTS1'
+  alias: TTS it's 9 PM
+  trigger:
+    platform: time
+    at: '21:00:00'
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+    data:
+      message: It's Nine P M 
+    entity_id: media_player.home
+    service: tts.google_say
+
+# Say when garage door is opened
+- id: 'TTS2'
+  alias: TTS Garage Open
+  trigger:
+  - entity_id: sensor.garage_door
+    platform: state
+    from: 'OPENING'
+    to: 'OPEN'
+  condition: []
+  action:
+    - service: tts.google_say
+      data:
+        message: Garage Door is Open
+      entity_id: media_player.home
+
+
+# Say When garage door is closed
+- id: 'TTS3'
+  alias: TTS Garage Closed
+  trigger:
+  - entity_id: sensor.garage_door
+    platform: state
+    from: 'CLOSING'
+    to: 'CLOSED'
+  condition: []
+  action:
+    data:
+      message: Garage Door is Closed
+    entity_id: media_player.home
+    service: tts.google_say
+
+ # Say when garage door is left open at certain times of the night or if door is in state unknown
+- id: 'TTS4'
+  alias: TTS Garage Alert
+  trigger:
+    - platform: time
+      at: '21:01:00'
+    - platform: time
+      at: '21:30:00'
+    - platform: time
+      at: '22:00:00'
+    - platform: time
+      at: '22:30:00'
+    - platform: time
+      at: '23:00:00'
+    - platform: time
+      at: '23:30:00'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: cover.garage_door
+        state: open
+      - condition: state
+        entity_id: cover.garage_door
+        state: unknown
+  action:
+    data:
+      message: Garage Door is Still Open!
+    entity_id: media_player.home
+    service: tts.google_say
+#-------------------------------------------TTS---------------------------------------------#

@@ -1,0 +1,64 @@
+##############################################################################################
+#
+#                                         Customization
+#                                                                                      J Brown
+##############################################################################################
+
+switch.heatpump:
+  friendly_name: Heat Pump
+  emulated_hue: true
+  emulated_hue_name: Heat Pump
+sensor.temperature:
+  icon: mdi:thermometer
+sensor.humidity:
+  icon: mdi:water-percent
+sensor.energy_consumed:
+  icon: mdi:flash
+sensor.efergy_14975:
+  friendly_name: Energy Usage
+  icon: mdi:flash
+sensor.speedtest_download:
+  friendly_name: Internet Download Speed
+  icon: mdi:download-network
+sensor.speedtest_upload:
+  friendly_name: Internet Upload Speed
+  icon: mdi:upload-network
+sensor.speedtest_ping:
+  friendly_name: Internet Ping
+  icon: mdi:network
+cover.garage_door:
+  icon: mdi:garage
+script.max_cool:
+  friendly_name: HVAC Max Cool
+  icon: mdi:fan
+script.max_heat:
+  friendly_name: HVAC Max Heat
+  icon: mdi:fan
+script.heatpumps_on:
+  friendly_name: All HVAC On
+  icon: mdi:fan
+script.heatpumps_off:
+  friendly_name: All HVAC Off
+  icon: mdi:fan-off
+sensor.current_temp:
+  friendly_name: Current Temperature
+  unit_of_measurement: °C
+climate.heatpump:
+  max_temp: 31
+  min_temp: 16
+climate.mistubishi_heatpump:
+  max_temp: 31
+  min_temp: 16
+script.spotify_music:
+  friendly_name: Play
+  icon: mdi:play
+script.lounge_heatpump_on:
+  friendly_name: Lounge Heat Pump 20 Degrees
+  icon: mdi:fan
+sensor.power_cost:
+  friendly_name: Power Cost Today
+  icon: mdi:currency-usd
+  unit_of_measurement: $
+sensor.month_power_cost:
+  friendly_name: Power Cost This Month
+  icon: mdi:currency-usd

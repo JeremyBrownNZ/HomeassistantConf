@@ -1,0 +1,390 @@
+##############################################################################################
+#
+#                                       Lovelace UI
+#                                                                                      J Brown
+##############################################################################################
+
+title: Our Home
+views:
+  - id: 0  # Automatically created id
+    title: Home
+    icon: mdi:castle
+    cards:
+        
+      - id: 5c4c9d0d357b48f6b1c890cb69175144  # Automatically created id
+        type: entity-filter
+        entities:
+          - device_tracker.anitasiphone
+          - device_tracker.jeremy_samsung
+          - device_tracker.karls_galaxys8
+        state_filter:
+          - home
+        card:
+          type: glance
+          title: Who is Home?
+          show_state: false
+          show_name: false
+
+      - id: 50d7afa59a18473987d5faadf1f9b764  # Automatically created id
+        type: entity-filter
+        entities:
+          - entity: sensor.garage_door
+            name: Garage
+            icon: mdi:garage-alert
+            tap_action: call-service
+            service: cover.close_cover
+            service_data:
+              entity_id: cover.garage_door
+          - entity: climate.heatpump
+            name: Lounge
+            icon: mdi:waves
+            tap_action: call-service
+            service: climate.set_operation_mode
+            service_data:
+              entity_id: climate.heatpump
+              operation_mode: Off
+          - entity: climate.mistubishi_heatpump
+            name: Foyer
+            icon: mdi:waves
+            tap_action: call-service
+            service: climate.set_operation_mode
+            service_data:
+              entity_id: climate.mistubishi_heatpump
+              operation_mode: OFF
+        state_filter:
+          - OPEN
+          - OPENING
+          - Heat
+          - HEAT
+          - Dry
+          - DRY
+          - Cool
+          - COOL
+          - FAN
+          - Auto
+          - AUTO
+        card:
+          type: glance
+          show_state: true
+          show_name: true
+
+
+      - id: 981d4e5fe3d64c91a28eaa94dcd204b3  # Automatically created id
+        type: horizontal-stack
+        cards:
+          - type: picture-entity
+            title: Driveway
+            entity: camera.driveway
+            camera_image: camera.driveway
+            show_info: true
+            tap_action: dialog
+          - type: picture-entity
+            title: Back Yard
+            entity: camera.back_yard
+            camera_image: camera.back_yard
+            show_info: true
+            tap_action: dialog
+
+
+      - id: 0fd34cf4469d405491e35618478e8330  # Automatically created id
+        type: entities
+        entities:
+
+          - sun.sun
+          - sensor.pws_temp_c
+          - sensor.pws_weather
+      - id: 2cfed52e83314e758ee644c8007e4584  # Automatically created id
+        type: entities
+        title: Lounge
+        show_header_toggle: true
+        entities:
+          - climate.mistubishi_heatpump
+#          - sensor.temperature
+#          - sensor.humidity
+
+#      - type: thermostat
+#        entity: climate.heatpump
+        
+      - id: 372967fb61e547c691f70e35cb500a41  # Automatically created id
+        type: history-graph
+        title: Power Bill
+        hours_to_show: 744
+        refresh_interval: 3600
+        entities:
+          - sensor.month_power_cost
+      - id: 8eab8be15427458abb842086b0be5a2f  # Automatically created id
+        type: media-control
+        entity: media_player.panasonic_viera_tv
+#      - id: 9a456cd2a709400badaaca639c188fe4  # Automatically created id
+#        type: media-control
+#        entity: media_player.kodi
+      - id: 360095f9f96d4f59803911c2d813b845  # Automatically created id
+        type: media-control
+        entity: media_player.lounge
+      - id: 7e221ed95f794d0db524b0285471c884  # Automatically created id
+        type: media-control
+        entity: media_player.home
+      - type: media-control
+        entity: media_player.kitchen_display    
+      - id: 73c8664aadac492496eea8f2e64f227c  # Automatically created id
+        type: media-control
+        entity: media_player.spotify
+      - id: bfe42b74dee44793bfc0ca56fe0f517b  # Automatically created id
+        type: entities
+        title: Outside
+        show_header_toggle: true
+        entities:
+          - switch.spa
+#      - type: picture-entity
+#        title: Driveway
+#        entity: camera.driveway
+#        camera_image: camera.driveway
+#        show_info: true
+#        tap_action: dialog
+#      - type: picture-entity
+#        title: Back Yard
+#        entity: camera.back_yard
+#        camera_image: camera.back_yard
+#        show_info: true
+#        tap_action: dialog
+      - id: c9fcf09f6c054c81aa8af08968eafa29  # Automatically created id
+        type: entities
+        title: Power & Internet
+        show_header_toggle: true
+        entities:
+          - sensor.efergy_14975
+          - sensor.energy_consumed
+          - sensor.power_cost
+          - sensor.month_power_cost
+          - sensor.speedtest_download
+          - sensor.speedtest_upload
+          - sensor.speedtest_ping
+      - id: 5a974b5e04a54ebcbd85a0479a3c86f5  # Automatically created id
+        type: entities
+        title: Garage Door
+        show_header_toggle: true
+        entities:
+          - sensor.garage_door
+          - cover.garage_door
+      - id: 5402452351914401b7ae94dbf8361800  # Automatically created id
+        type: entities
+        title: Foyer
+        show_header_toggle: true
+        entities:
+          - climate.mistubishi_heatpump
+          - sensor.current_temp
+          - light.top
+          - light.middle
+          - light.spotlight
+      - id: 5f5a8b8998f049508b0b847ecbdd9277  # Automatically created id
+        type: entities
+        title: Scripts
+        show_header_toggle: true
+        entities:
+          - script.max_cool
+          - script.max_heat
+          - script.lounge_heatpump_on
+          - script.heatpumps_on
+          - script.heatpumps_off
+  - id: 1  # Automatically created id
+    title: Weather
+    icon: mdi:weather-partlycloudy
+    cards:
+      - id: 8d6d6ef36988489784aa7bfe389a021c  # Automatically created id
+        type: entities
+        title: Weather
+        show_header_toggle: true
+        entities:
+          - sun.sun
+          - sensor.pws_temp_c
+          - sensor.pws_feelslike_c
+          - sensor.pws_relative_humidity
+          - sensor.pws_dewpoint_c
+          - sensor.pws_precip_1hr_metric
+          - sensor.pws_precip_today_metric
+          - sensor.pws_pressure_mb
+          - sensor.pws_pressure_trend
+          - sensor.pws_uv
+          - sensor.pws_visibility_km
+          - sensor.pws_weather
+          - sensor.pws_wind_dir
+          - sensor.pws_wind_gust_kph
+          - sensor.pws_wind_kph
+  - id: 2  # Automatically created id
+    title: Automations
+    icon: mdi:brightness-auto
+    cards:
+      - id: 7dc9e9920ad644928aefcc86f937aec8  # Automatically created id
+        type: entities
+        title: Automations HVAC
+        show_header_toggle: true
+        entities:
+          - automation.hp_lounge_auto_morning
+          - automation.hp_lounge_auto_afternoon
+          - automation.hp_lounge_auto_afternoon_if__10_deg
+          - automation.heatpump_auto_morning
+          - automation.heatpumps_auto_afternoon
+          - automation.heatpump_auto_afternoon_if__10_deg
+          - automation.hps_off_when_noones_home
+      - id: acbae2ddd5854ce480f9dbdc175cc6b4  # Automatically created id
+        type: entities
+        title: Lights
+        show_header_toggle: true
+        entities:
+          - automation.turn_on_bottom_foyer_light
+          - automation.turn_on_foyer_lights
+          - automation.turn_off_foyer_lights
+          - automation.turn_off_some_foyer_lights
+      - id: 1048a90316f84c63998e7a1d8d288b2a  # Automatically created id
+        type: entities
+        title: Spa
+        show_header_toggle: true
+        entities:
+          - automation.spa_on
+          - automation.spa_off
+      - id: 2e970b0a5cf642f98de8af95f8fa4f63  # Automatically created id
+        type: entities
+        title: Notifications
+        show_header_toggle: true
+        entities:
+          - automation.notifygarage
+          - automation.rpizeroadsb
+          - automation.rpizerowcam
+      - id: 52056ee0d57345c2bb72a453c2aeec61  # Automatically created id
+        type: entities
+        title: TTS
+        show_header_toggle: true
+        entities:
+          - automation.tts_its_9_pm
+          - automation.tts_garage_closed
+          - automation.tts_garage_open
+          - automation.tts_garage_alert
+      - id: e1b9505d3a424287ad0e6afcd8a957a6  # Automatically created id
+        type: entities
+        title: Frontend
+        show_header_toggle: true
+        entities:
+          - automation.set_theme_at_startup
+  - id: 3  # Automatically created id
+    title: Systems
+    icon: mdi:video-input-component
+    cards:
+      - id: ccfa8389164e43468bd78b6b02401681  # Automatically created id
+        type: entities
+        title: Sites
+        show_header_toggle: true
+        entities:
+          - sensor.ssl_certificate_expiry
+          - sensor.plex
+      - id: 37e072e8c33b48ad928d38e30583d6ad  # Automatically created id
+        type: entities
+        title: Connectivity
+        show_header_toggle: true
+        entities:
+          - binary_sensor.efergy_hub
+          - binary_sensor.foyer_heatpump
+          - binary_sensor.garage_door
+          - binary_sensor.lounge_heatpump
+          - binary_sensor.spa
+          - binary_sensor.rpizeroadsb
+          - binary_sensor.rpizerowcam
+          - binary_sensor.wemo_hub
+      - id: 426c662343ab46ef9d7cf3728caf92d3  # Automatically created id
+        type: entities
+        title: Power & Internet
+        show_header_toggle: true
+        entities:
+          - sensor.efergy_14975
+          - sensor.energy_consumed
+          - sensor.power_cost
+          - sensor.month_power_cost
+          - sensor.speedtest_download
+          - sensor.speedtest_upload
+          - sensor.speedtest_ping
+      - id: efbbf9d9ca52480ba76c8bd56ddc2820  # Automatically created id
+        type: entities
+        title: Pi Hole
+        show_header_toggle: true
+        entities:
+          - sensor.pihole_ads_blocked_today
+  - id: 4  # Automatically created id
+    title: Surveillance
+    icon: mdi:camera
+    cards:
+      - id: e97e1e384de24994850eeb75b9acd648  # Automatically created id
+        type: picture-entity
+        title: Driveway
+        entity: camera.driveway
+        camera_image: camera.driveway
+        show_info: true
+        tap_action: dialog
+      - id: 232c41e73d9e41da92fa287c8372ee4d  # Automatically created id
+        type: picture-entity
+        title: Back Yard
+        entity: camera.back_yard
+        camera_image: camera.back_yard
+        show_info: true
+        tap_action: dialog
+
+  - id: 5  # Automatically created id
+    title: Ground Floor
+    icon: mdi:home-heart
+#    panel: true
+    cards:
+      - id: d2cf428de9cd4c349d32a8825b8f55cf  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: picture-elements
+            image: /local/groundfloor.png
+            elements:
+              - type: state-icon
+                tap_action: toggle
+                entity: light.top
+                style:
+                  top: 30%
+                  left: 45%
+              - type: state-icon
+                tap_action: toggle
+                entity: light.middle
+                style:
+                  top: 34%
+                  left: 48%
+              - type: state-icon
+                tap_action: toggle
+                entity: light.spotlight
+                style:
+                  top: 30%
+                  left: 51%
+              - type: state-label
+                entity: sensor.pws_temp_c
+                style:
+                  top: 3%
+                  left: 85%
+                  colour: black
+                  font-weight: bold
+              - type: state-label
+                entity: sensor.current_temp
+                style:
+                  top: 25%
+                  left: 63%
+                  colour: black
+                  font-weight: bold
+
+  - id: 6  # Automatically created id
+    title: First Floor
+    icon: mdi:stairs
+#    panel: true
+    cards:
+      - id: d052c0fc9f544600b0bf0fc3035df357  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: picture-elements
+            image: /local/firstfloor.png
+            elements:
+              - type: state-label
+                entity: sensor.pws_temp_c
+                style:
+                  top: 3%
+                  left: 85%
+                  colour: black
+                  font-weight: bold

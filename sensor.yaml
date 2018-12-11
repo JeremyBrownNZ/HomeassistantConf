@@ -1,0 +1,140 @@
+##############################################################################################
+#
+#                                         Sensors
+#                                                                                      J Brown
+##############################################################################################
+
+# Plex Server
+ - platform: plex
+   host: 10.1.1.110
+   port: 32400
+   username: !secret plex_username
+   password: !secret plex_password
+
+# pi hole
+ - platform: pi_hole
+   host: 10.1.1.10
+
+# Foyer Temp
+ - platform: mqtt
+   state_topic:  "heatpump/status"
+   name: "Current Temp"
+   unit_of_measurement: 'C'
+   value_template: '{{ value_json.roomTemperature }}'
+
+# Garage Door State sensor (MQTT)
+ - platform: mqtt
+   state_topic: "garage/door/status"
+   name: "Garage Door"
+   qos: 1
+
+
+ #DHT22 in lounge
+ - platform: mqtt
+   state_topic: "home/lounge/sensor" 
+   name: "Temperature"
+   unit_of_measurement: 'C'
+   value_template: '{{ value_json.temperature }}'
+ - platform: mqtt
+   state_topic: "home/lounge/sensor" 
+   name: "Humidity"
+   unit_of_measurement: '%'
+   value_template: '{{ value_json.humidity }}'
+
+ - platform: time_date
+   display_options:
+     - 'time'
+#     - 'date'
+     - 'date_time'
+#     - 'time_date'
+#     - 'time_utc'
+#     - 'beat'
+        
+# Efergy real time power monitoring (some features commented out.)
+ - platform: efergy
+   app_token: !secret efergy_token
+   utc_offset: 780
+   monitored_variables:
+     - type: current_values
+#     - type: instant_readings
+     - type: amount
+       period: day
+#     - type: current_values
+  
+#Speedtest of internet at set intervals of an hour.
+ - platform: speedtest
+   monitored_conditions:
+     - ping
+     - download
+     - upload
+   minute:
+     - 0
+     - 30
+   server_id: 922
+     
+# Weather Underground for real time weather information (some features commented out.)    
+ - platform: wunderground
+   api_key: !secret WU_Key
+   monitored_conditions:
+     - dewpoint_c
+     - feelslike_c
+     - heat_index_c
+     - precip_1hr_metric
+     - precip_today_metric
+     - pressure_mb
+     - pressure_trend
+     - relative_humidity
+     - solarradiation
+     - temp_c
+     - UV
+     - visibility_km
+     - weather
+     - wind_dir
+     - wind_gust_kph
+     - wind_kph
+
+ - platform: cert_expiry
+   host: hass.jeremybrown.co.nz
+
+ - platform: file
+   name: "Power Usage at 7AM"
+   file_path: /config/pwrat7.txt
+   
+ - platform: file
+   name: "Power Usage at 9PM"
+   file_path: /config/pwrat21.txt
+   
+ - platform: file
+   name: "Power Month Cost"
+   file_path: /config/powermonth.txt
+   
+ - platform: template
+   sensors:
+     power_cost:
+       friendly_name: "Power Cost"
+       unit_of_measurement: '$'
+       value_template: >-
+         {# Declare Variables #}
+         {% set var= {"Morning" : "07:00", "Night" : "21:00", "OffPeak" : 0.115632 , "Peak" : 0.291104, "Daily" : 0.337304} %}
+
+         {# Is current day Mon - Fri #}
+         {% if now().weekday() < 5 %}   
+           {% if  now().strftime("%H:%M") < strptime(var.Morning, "%H%M")  %}
+             {{ ((states("sensor.energy_consumed") | float * var.OffPeak) + var.Daily)  | round(2) }}
+           {% elif now().strftime("%H:%M") < strptime(var.Night, "%H%M") %}
+             {{ (((states("sensor.power_usage_at_7am") | float * var.OffPeak + (states("sensor.energy_consumed") | float - states("sensor.power_usage_at_7am") | float )* var.Peak) + var.Daily) | round(2) )}}
+           {% else %}
+             {{ (((states("sensor.power_usage_at_7am") | float * var.OffPeak + (states("sensor.power_usage_at_9pm") | float - states("sensor.power_usage_at_7am") | float )* var.Peak) + (states("sensor.energy_consumed") | float - states("sensor.power_usage_at_9pm") | float) * var.OffPeak) + var.Daily)| round(2) }}
+           {% endif %}
+         {# else current day Sat-Sun #}
+         {% else %}
+           {{ ((states("sensor.energy_consumed") | float * var.OffPeak) + var.Daily)  | round(2) }}
+         {% endif %}
+
+ - platform: template
+   sensors:
+     month_power_cost:
+       friendly_name: "Month Cost"
+       unit_of_measurement: '$'
+       value_template: >-
+         {{((states("sensor.power_cost") | float) + (states("sensor.power_month_cost") | float)) | round(2)}}

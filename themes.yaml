@@ -1,0 +1,52 @@
+    white:
+      primary-color: "#FFFFFF"  
+    dark_orange:
+      primary-color: "#FF4000"
+    orange:
+      primary-color: "#FF8000"
+    light_orange:
+      primary-color: "#FFBF00"
+    yellow:
+      primary-color: "#FFFF00"
+    yellow_green:
+      primary-color: "#BFFF00"
+    lime_green:
+      primary-color: "#80FF00"
+    light_green:
+      primary-color: "#40FF00"
+    green:
+      primary-color: "#00FF00"
+    blueish_green:
+      primary-color: "#00FF40"
+    teal:
+      primary-color: "#00FF80"
+    aqua:
+      primary-color: "#00FFBF"
+    electric_blue:
+      primary-color: "#00FFFF"
+    light_blue:
+      primary-color: "#00BFFF"
+    mid_blue:
+      primary-color: "#0080FF"
+    deep_blue:
+      primary-color: "#0040FF"
+    blue:
+      primary-color: "#0000FF"
+    purple_blue:
+      primary-color: "#4000FF"
+    purple:
+      primary-color: "#8000FF"
+    violet:
+      primary-color: "#BF00FF"
+    pink:
+      primary-color: "#FF00FF"
+    darker_pink:
+      primary-color: "#FF00BF"
+    red_pink:
+      primary-color: "#FF0080"
+    off_red:
+      primary-color: "#FF0040"
+    red:
+      primary-color: "#FF0000"
+    black:
+      primary-color: "#000000"

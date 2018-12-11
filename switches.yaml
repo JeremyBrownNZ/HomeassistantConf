@@ -1,0 +1,29 @@
+##############################################################################################
+#
+#                                         Switches
+#                                                                                      J Brown
+##############################################################################################
+
+#Command line switches
+#- platform: command_line
+#  switches:
+    
+    #Garden Tap outside            
+ #    water:
+ #      command_on: "~/RPiZeroADSB/waterOn.sh"
+ #      command_off: "~/RPiZeroADSB/waterOff.sh"
+ #      command_state: "~/RPiZeroADSB/waterCheck.sh"
+ #      value_template: '{{ value == "1" }}'
+       
+#MQTT switches       
+- platform: mqtt
+  name: "Prototype Switch"
+  command_topic: "home/ESP32" 
+
+- platform: mqtt
+  name: "Spa"
+  command_topic: "home/outside/spa/cmnd/POWER" 
+  qos: 1
+  payload_on: "off"
+  payload_off: "on"
+  retain: true
