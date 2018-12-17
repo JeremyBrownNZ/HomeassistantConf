@@ -4,6 +4,14 @@
 #                                                                                      J Brown
 ##############################################################################################
 
+ - platform: snmp
+   host: 10.1.1.111
+   name: 'Hypervisor Uptime'
+   baseoid: 1.3.6.1.2.1.1.3.0
+   accept_errors: true
+   unit_of_measurement: 'Days'
+   value_template: '{{(((value | float) / 8640000) | float)| round(2)}}'
+
 # Plex Server
  - platform: plex
    host: 10.1.1.110

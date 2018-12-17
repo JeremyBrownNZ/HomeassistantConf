@@ -67,7 +67,7 @@ views:
           type: glance
           show_state: true
           show_name: true
-
+      
 
       - id: 981d4e5fe3d64c91a28eaa94dcd204b3  # Automatically created id
         type: horizontal-stack
@@ -77,13 +77,13 @@ views:
             entity: camera.driveway
             camera_image: camera.driveway
             show_info: true
-            tap_action: dialog
+  #          tap_action: dialog
           - type: picture-entity
             title: Back Yard
             entity: camera.back_yard
             camera_image: camera.back_yard
             show_info: true
-            tap_action: dialog
+ #           tap_action: dialog
 
 
       - id: 0fd34cf4469d405491e35618478e8330  # Automatically created id
@@ -173,9 +173,20 @@ views:
         entities:
           - climate.mistubishi_heatpump
           - sensor.current_temp
-          - light.top
-          - light.middle
-          - light.spotlight
+#          - light.top
+#          - light.middle
+#          - light.spotlight
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.top
+            name: Top
+          - type: light
+            entity: light.middle
+            name: Middle
+          - type: light
+            entity: light.spotlight
+            name: Bottom         
       - id: 5f5a8b8998f049508b0b847ecbdd9277  # Automatically created id
         type: entities
         title: Scripts
@@ -307,6 +318,11 @@ views:
         show_header_toggle: true
         entities:
           - sensor.pihole_ads_blocked_today
+      - type: entities
+        title: Hypervisor
+        show_header_toggle: true
+        entities:
+          - sensor.hypervisor_uptime
   - id: 4  # Automatically created id
     title: Surveillance
     icon: mdi:camera
@@ -369,6 +385,24 @@ views:
                   left: 63%
                   colour: black
                   font-weight: bold
+              - type: image
+                entity: camera.driveway
+                camera_image: camera.driveway
+                style:
+                  top: 42%
+                  left: 94%
+                  width: 10%
+                  border: 2px solid red
+                  border-radius: 10%
+              - type: image
+                entity: camera.back_yard
+                camera_image: camera.back_yard
+                style:
+                  top: 76%
+                  left: 17%
+                  width: 10%
+                  border: 2px solid red
+                  border-radius: 10%
 
   - id: 6  # Automatically created id
     title: First Floor

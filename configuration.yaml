@@ -29,6 +29,8 @@ history:                   # Enables support for tracking state changes over tim
 logbook:                  # View all events in a logbook
 sun:                        # Track the sun
 discovery:                # Discover some devices automatically
+lovelace:
+  mode: yaml
 
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg
@@ -97,18 +99,22 @@ shell_command:
 #    max: 1
 #    step: 0.05
     
-input_select:
-  spotify_playlist:
-    name: 'Playlist:'
-    options:
-    icon: mdi:spotify
-  spotify_source:
-    name: 'Source:'
-    options:
-      - Jeremys Note8
-      - Google Home
-    initial: Google Home
-    icon: mdi:speaker-wireless
+#input_select:
+#  spotify_playlist:
+#    name: 'Playlist:'
+#    options:
+#    icon: mdi:spotify
+#  spotify_source:
+#    name: 'Source:'
+#    options:
+#      - Jeremys Note8
+#      - Google Home
+#    initial: Google Home
+#    icon: mdi:speaker-wireless
     
 google_assistant:
   project_id: !secret ga_project_id
+  
+geo_location:
+  - platform: usgs_earthquakes_feed
+    feed_type: 'past_day_all_earthquakes'
