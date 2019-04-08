@@ -31,26 +31,29 @@ views:
           - entity: sensor.garage_door
             name: Garage
             icon: mdi:garage-alert
-            tap_action: call-service
-            service: cover.close_cover
-            service_data:
-              entity_id: cover.garage_door
+            tap_action: 
+              action: call-service
+              service: cover.close_cover
+              service_data:
+                entity_id: cover.garage_door
           - entity: climate.heatpump
             name: Lounge
             icon: mdi:waves
-            tap_action: call-service
-            service: climate.set_operation_mode
-            service_data:
-              entity_id: climate.heatpump
-              operation_mode: Off
+            tap_action: 
+              action: call-service
+              service: climate.set_operation_mode
+              service_data:
+                entity_id: climate.heatpump
+                operation_mode: "Off"
           - entity: climate.mistubishi_heatpump
             name: Foyer
             icon: mdi:waves
-            tap_action: call-service
-            service: climate.set_operation_mode
-            service_data:
-              entity_id: climate.mistubishi_heatpump
-              operation_mode: OFF
+            tap_action: 
+              action: call-service
+              service: climate.set_operation_mode
+              service_data:
+                entity_id: climate.mistubishi_heatpump
+                operation_mode: OFF
         state_filter:
           - OPEN
           - OPENING
@@ -98,12 +101,12 @@ views:
         title: Lounge
         show_header_toggle: true
         entities:
-          - climate.mistubishi_heatpump
+          - climate.heatpump
 #          - sensor.temperature
 #          - sensor.humidity
 
-#      - type: thermostat
-#        entity: climate.heatpump
+      - type: thermostat
+        entity: climate.heatpump
         
       - id: 372967fb61e547c691f70e35cb500a41  # Automatically created id
         type: history-graph
@@ -232,10 +235,10 @@ views:
         entities:
           - automation.hp_lounge_auto_morning
           - automation.hp_lounge_auto_afternoon
-          - automation.hp_lounge_auto_afternoon_if__10_deg
+          - automation.hp_lounge_auto_afternoon_if_less_than_10_deg
           - automation.heatpump_auto_morning
           - automation.heatpumps_auto_afternoon
-          - automation.heatpump_auto_afternoon_if__10_deg
+          - automation.heatpump_auto_afternoon_if_less_than_10_deg
           - automation.hps_off_when_noones_home
       - id: acbae2ddd5854ce480f9dbdc175cc6b4  # Automatically created id
         type: entities

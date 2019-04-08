@@ -9,14 +9,15 @@
   - platform: ffmpeg
     input: !secret camera_driveway
     name: Driveway
-    ffmpeg_bin: /usr/bin/ffmpeg
+#   ffmpeg_bin: /usr/bin/ffmpeg
     extra_arguments: -q:v 2 -r 10 -s 1280x720
     
 # Back Yard Camera    
   - platform: ffmpeg
     input: !secret camera_back_yard
     name: Back Yard
-    ffmpeg_bin: /usr/bin/ffmpeg
+#    ffmpeg_bin: /usr/bin/ffmpeg
     extra_arguments: -q:v 2 -r 10 -s 1280x720
     
+
 

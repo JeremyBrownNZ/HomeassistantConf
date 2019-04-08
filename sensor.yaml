@@ -3,6 +3,7 @@
 #                                         Sensors
 #                                                                                      J Brown
 ##############################################################################################
+ - platform: moon
 
  - platform: snmp
    host: 10.1.1.111
@@ -22,6 +23,11 @@
 # pi hole
  - platform: pi_hole
    host: 10.1.1.10
+   monitored_conditions:
+     - ads_blocked_today
+     - ads_percentage_today
+     - dns_queries_today
+     - domains_being_blocked
 
 # Foyer Temp
  - platform: mqtt
@@ -61,45 +67,30 @@
 # Efergy real time power monitoring (some features commented out.)
  - platform: efergy
    app_token: !secret efergy_token
-   utc_offset: 780
+   utc_offset: 720
    monitored_variables:
      - type: current_values
 #     - type: instant_readings
      - type: amount
        period: day
 #     - type: current_values
-  
-#Speedtest of internet at set intervals of an hour.
- - platform: speedtest
+       
+# Darksky for real time weather information (some features commented out.)      
+ - platform: darksky
+   api_key: 4659d644686dea61693abafd727e357d
    monitored_conditions:
-     - ping
-     - download
-     - upload
-   minute:
-     - 0
-     - 30
-   server_id: 922
-     
-# Weather Underground for real time weather information (some features commented out.)    
- - platform: wunderground
-   api_key: !secret WU_Key
-   monitored_conditions:
-     - dewpoint_c
-     - feelslike_c
-     - heat_index_c
-     - precip_1hr_metric
-     - precip_today_metric
-     - pressure_mb
-     - pressure_trend
-     - relative_humidity
-     - solarradiation
-     - temp_c
-     - UV
-     - visibility_km
-     - weather
-     - wind_dir
-     - wind_gust_kph
-     - wind_kph
+     - temperature
+     - apparent_temperature
+     - dew_point
+     - wind_speed
+     - wind_gust
+     - wind_bearing
+     - humidity
+     - pressure
+     - visibility
+     - temperature_high
+     - temperature_low
+     - uv_index
 
  - platform: cert_expiry
    host: hass.jeremybrown.co.nz

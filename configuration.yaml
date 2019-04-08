@@ -29,8 +29,8 @@ history:                   # Enables support for tracking state changes over tim
 logbook:                  # View all events in a logbook
 sun:                        # Track the sun
 discovery:                # Discover some devices automatically
-lovelace:
-  mode: yaml
+system_health:
+
 
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg
@@ -61,6 +61,7 @@ cover: !include cover.yaml
 device_tracker: !include device_tracker.yaml
 group: !include groups.yaml
 media_player: !include media_player.yaml
+person: !include person.yaml
 script: !include scripts.yaml
 sensor: !include sensor.yaml
 switch: !include switches.yaml
@@ -118,3 +119,27 @@ google_assistant:
 geo_location:
   - platform: usgs_earthquakes_feed
     feed_type: 'past_day_all_earthquakes'
+    radius: 200
+    minimum_magnitude: 0.0
+    
+#Speedtest of internet at set intervals of an hour.
+speedtestdotnet:
+  scan_interval:
+    minutes: 30
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+  server_id: 922
+  
+googlehome:
+  devices:
+    - host: 10.1.1.160
+    - host: 10.1.1.162
+
+
+weather:
+  - platform: darksky
+    api_key: 4659d644686dea61693abafd727e357d
+    
+stream:

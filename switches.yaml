@@ -27,3 +27,6 @@
   payload_on: "off"
   payload_off: "on"
   retain: true
+
+- platform: wake_on_lan
+  mac_address: "E0-D5-5E-E4-A8-B2"

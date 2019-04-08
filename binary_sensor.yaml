@@ -15,15 +15,15 @@
    name: RPiZeroWCam
    
  - platform: ping
-   host: 10.1.1.243
+   host: 10.1.2.243
    name: Garage Door
 
  - platform: ping
-   host: 10.1.1.244
+   host: 10.1.2.244
    name: Foyer Heatpump
    
  - platform: ping
-   host: 10.1.1.243
+   host: 10.1.2.240
    name: Lounge Heatpump
 
  - platform: ping

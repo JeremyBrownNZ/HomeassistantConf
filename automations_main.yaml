@@ -42,7 +42,7 @@
       after: '14:00:00'
       before: '23:00:00'
     - condition: numeric_state
-      entity_id: sensor.pws_temp_c
+      entity_id: sensor.dark_sky_temperature
       below: '10'
     - condition: state
       entity_id: climate.heatpump
@@ -54,9 +54,9 @@
 
  #Turn heatpump on if temperature outside falls below 10 degrees, someone is home and its 1500L-2300L.
 - id: 'HVAC3'
-  alias: Heatpump Auto Afternoon if < 10 Deg
+  alias: Heatpump Auto Afternoon if less than 10 Deg
   trigger:
-  - entity_id: sensor.pws_temp_c
+  - entity_id: sensor.dark_sky_temperature
     platform: numeric_state
     below: 10
   condition:
@@ -75,9 +75,9 @@
     
  #Turn Lounge heatpump on if temperature outside falls below 10 degrees, someone is home and its 1500L-2300L.
 - id: 'HVAC4'
-  alias: HP Lounge Auto Afternoon if < 10 Deg
+  alias: HP Lounge Auto Afternoon if less than 10 Deg
   trigger:
-  - entity_id: sensor.pws_temp_c
+  - entity_id: sensor.dark_sky_temperature
     platform: numeric_state
     below: 10
   condition:
@@ -102,7 +102,7 @@
   alias: Heatpump Auto Morning
   trigger:
     platform: time
-    at: 06:30:00
+    at: 05:45:00
   condition:
     condition: and
     conditions:
@@ -110,19 +110,19 @@
       entity_id: group.all_devices
       state: home
     - condition: numeric_state
-      entity_id: sensor.pws_temp_c
+      entity_id: sensor.dark_sky_temperature
       below: '10'
   action:
   - data:
       entity_id: script.heatpumps_on
     service: script.turn_on
 
-#Turn  Lounge heatpump on at 0655L if someone is home.
+#Turn  Lounge heatpump on at 0545L if someone is home.
 - id: 'HVAC6'
   alias: HP Lounge Auto Morning
   trigger:
     platform: time
-    at: 06:30:00
+    at: 05:45:00
   condition:
     condition: and
     conditions:
@@ -130,7 +130,7 @@
       entity_id: group.all_devices
       state: home
     - condition: numeric_state
-      entity_id: sensor.pws_temp_c
+      entity_id: sensor.dark_sky_temperature
       below: '10'
     - condition: state
       entity_id: climate.heatpump
@@ -166,6 +166,27 @@
   action:
   - data:
       entity_id: script.heatpumps_off
+    service: script.turn_on
+    
+ #Turn heatpump on if temperature outside falls below 10 degrees, someone is home and its 0545L-0800L.
+- id: 'HVAC8'
+  alias: Heatpump Auto Morning if less than 10 Deg
+  trigger:
+  - entity_id: sensor.dark_sky_temperature
+    platform: numeric_state
+    below: 10
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      after: '05:45:00'
+      before: '08:00:00'
+    - condition: state
+      entity_id: group.all_devices
+      state: home
+  action:
+  - data:
+      entity_id: script.heatpumps_on
     service: script.turn_on
 #-------------------------------------------HVAC--------------------------------------------#
 
@@ -317,7 +338,7 @@
   action:
     service: frontend.set_theme
     data:
-      name: orange  
+      name: dark_teal  
       
 # Run shell script which clears current monthly usage
 #- id: 'MISC6'
@@ -417,7 +438,7 @@
 #-------------------------------------------TTS---------------------------------------------#
 # Say when its 9 PM to allow people to turn on appliances in cheaper power tariff
 - id: 'TTS1'
-  alias: TTS it's 9 PM
+  alias: TTS its 9 PM
   trigger:
     platform: time
     at: '21:00:00'

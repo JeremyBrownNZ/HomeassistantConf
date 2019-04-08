@@ -1,9 +1,3 @@
-##############################################################################################
-#
-#                                         Customization
-#                                                                                      J Brown
-##############################################################################################
-
 switch.heatpump:
   friendly_name: Heat Pump
   emulated_hue: true
@@ -47,13 +41,14 @@ climate.heatpump:
   max_temp: 31
   min_temp: 16
 climate.mistubishi_heatpump:
+  friendly_name: Foyer Heatpump
   max_temp: 31
   min_temp: 16
 script.spotify_music:
   friendly_name: Play
   icon: mdi:play
 script.lounge_heatpump_on:
-  friendly_name: Lounge Heat Pump 20 Degrees
+  friendly_name: Lounge HP 20 Deg
   icon: mdi:fan
 sensor.power_cost:
   friendly_name: Power Cost Today
@@ -62,3 +57,10 @@ sensor.power_cost:
 sensor.month_power_cost:
   friendly_name: Power Cost This Month
   icon: mdi:currency-usd
+switch.wake_on_lan:
+  friendly_name: Wake Desktop PC
+  icon: mdi:desktop-classic
+person.jeremy:
+  entity_picture: '"/local/jeremy.png"'
+person.anita:
+  entity_picture: '"/local/anita.png"'

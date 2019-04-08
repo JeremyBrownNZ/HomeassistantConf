@@ -122,3 +122,38 @@
             {% if is_state("input_select.spotify_playlist", "NZ Top 40") %} spotify:user:spotify:playlist:3lBqBc4gEUcWpsfM5Ke8aF
             {% endif %} 
 #-------------------------------------------MISC--------------------------------------------#
+#--------------------------------------Cast Cameras-----------------------------------------#
+
+  cast_backyard:
+    alias: Backyard on Home Hub
+    sequence:
+      - service: camera.play_stream
+        data:
+          entity_id: camera.back_yard
+          media_player: media_player.kitchen_display
+          
+  cast_driveway:
+    alias: Driveway on Home Hub
+    sequence:
+      - service: camera.play_stream
+        data:
+          entity_id: camera.driveway
+          media_player: media_player.kitchen_display
+          
+  cast_backyard2:
+    alias: Backyard on Lounge TV
+    sequence:
+      - service: camera.play_stream
+        data:
+          entity_id: camera.back_yard
+          media_player: media_player.lounge
+          
+  cast_driveway2:
+    alias: Driveway on Lounge TV
+    sequence:
+      - service: camera.play_stream
+        data:
+          entity_id: camera.driveway
+          media_player: media_player.lounge
+    
+#--------------------------------------Cast Cameras-----------------------------------------#

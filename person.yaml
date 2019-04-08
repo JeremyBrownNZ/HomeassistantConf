@@ -1,0 +1,23 @@
+  - name: Jeremy
+    id: jeremy
+    device_trackers:
+      - device_tracker.jeremy_samsung
+      - device_tracker.10_1_1_160_d8_68_c3_60_da_b8
+      - device_tracker.10_1_1_162_d8_68_c3_60_da_b8
+      
+  - name: Anita
+    id: anita
+    device_trackers:
+      - device_tracker.anitas_huawei
+      - device_tracker.10_1_1_160_e4_a7_c5_a6_dd_69
+      - device_tracker.10_1_1_162_e4_a7_c5_a6_dd_69
+      
+  - name: Karl
+    id: karl
+    device_trackers:
+      - device_tracker.karls_galaxys8
+      
+  - name: Rochelle
+    id: rochelle
+    device_trackers:
+      - device_tracker.rochelles_iphone
