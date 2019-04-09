@@ -46,6 +46,7 @@ tts:                        # Text to speech
     cache_dir: /tmp/tts
     time_memory: 300
     
+    
 logger:
   default: warning
   logs:
@@ -140,6 +141,6 @@ googlehome:
 
 weather:
   - platform: darksky
-    api_key: 4659d644686dea61693abafd727e357d
+    api_key: !secret DS_Key
     
 stream:
